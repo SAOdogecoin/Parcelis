@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
   return (
@@ -19,39 +18,39 @@ const Footer: React.FC = () => {
               The standard for modern logistics protection. Fully licensed, fully compliant, and designed to protect your bottom line.
             </p>
           </div>
-          
+
           <div>
             <h4 className="text-white font-bold mb-5 tracking-wide text-sm uppercase">Product</h4>
             <ul className="space-y-3 text-sm">
-              <li><Link to="/how-it-works" className="hover:text-white transition-colors">How It Works</Link></li>
-              <li><Link to="/pricing" className="hover:text-white transition-colors">Pricing</Link></li>
-              <li><Link to="/claims" className="hover:text-white transition-colors">Claims</Link></li>
+              <li><a href="#how-it-works" className="hover:text-white transition-colors">How It Works</a></li>
+              <li><a href="#pricing" className="hover:text-white transition-colors">Pricing</a></li>
+              <li><a href="#claims" className="hover:text-white transition-colors">Claims</a></li>
             </ul>
           </div>
 
           <div>
             <h4 className="text-white font-bold mb-5 tracking-wide text-sm uppercase">Company</h4>
             <ul className="space-y-3 text-sm">
-              <li><Link to="/about" className="hover:text-white transition-colors">About Us</Link></li>
-              <li><Link to="/contact" className="hover:text-white transition-colors">Contact</Link></li>
-              <li><Link to="/careers" className="hover:text-white transition-colors">Careers</Link></li>
+              <li><a href="#about" className="hover:text-white transition-colors">About Us</a></li>
+              <li><a href="#contact" className="hover:text-white transition-colors">Contact</a></li>
+              <li><a href="#careers" className="hover:text-white transition-colors">Careers</a></li>
             </ul>
           </div>
 
           <div>
             <h4 className="text-white font-bold mb-5 tracking-wide text-sm uppercase">Resources</h4>
              <ul className="space-y-3 text-sm">
-              <li><Link to="/self-insurance-risks" className="text-[#4e54ff] hover:text-[#7e82ff] transition-colors font-medium">Self-Insurance Risks</Link></li>
-              <li><Link to="/faq" className="hover:text-white transition-colors">FAQ</Link></li>
-              <li><Link to="/blog" className="hover:text-white transition-colors">Blog</Link></li>
+              <li><a href="#" className="text-[#4e54ff] hover:text-[#7e82ff] transition-colors font-medium">Self-Insurance Risks</a></li>
+              <li><a href="#faq" className="hover:text-white transition-colors">FAQ</a></li>
+              <li><a href="#blog" className="hover:text-white transition-colors">Blog</a></li>
             </ul>
           </div>
         </div>
         <div className="mt-16 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
           <p>&copy; {new Date().getFullYear()} Parcelis. All rights reserved.</p>
           <div className="flex space-x-8 mt-4 md:mt-0">
-            <Link to="/privacy" className="hover:text-gray-300 transition-colors">Privacy Policy</Link>
-            <Link to="/terms" className="hover:text-gray-300 transition-colors">Terms of Service</Link>
+            <a href="#privacy" className="hover:text-gray-300 transition-colors">Privacy Policy</a>
+            <a href="#terms" className="hover:text-gray-300 transition-colors">Terms of Service</a>
           </div>
         </div>
       </div>

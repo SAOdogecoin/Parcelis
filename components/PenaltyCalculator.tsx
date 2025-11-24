@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { getPenaltyData } from '../services/penaltyService';
 import { StatePenaltyData } from '../types';
@@ -6,7 +8,7 @@ import { Calculator, Info, AlertCircle } from 'lucide-react';
 const PenaltyCalculator: React.FC = () => {
   const [states, setStates] = useState<StatePenaltyData[]>([]);
   const [loading, setLoading] = useState(true);
-  
+
   // Form State
   const [selectedStateCode, setSelectedStateCode] = useState<string>('CA');
   // Lowered default to 10 to prevent initial "Billions" shock
@@ -33,8 +35,8 @@ const PenaltyCalculator: React.FC = () => {
 
   const calculations = useMemo(() => {
     if (!selectedStateData) return { daily: 0, monthly: 0, yearly: 0, penalty: 0 };
-    
-    // Logic: If the state considers each unlicensed contract a violation, 
+
+    // Logic: If the state considers each unlicensed contract a violation,
     // then shipping 100 packages = 100 violations.
     const penalty = selectedStateData.penaltyPerViolation;
     const daily = ordersPerDay * penalty;
@@ -49,7 +51,7 @@ const PenaltyCalculator: React.FC = () => {
       style: 'currency',
       currency: 'USD',
       maximumFractionDigits: 0,
-      notation: val > 1000000000 ? 'compact' : 'standard' 
+      notation: val > 1000000000 ? 'compact' : 'standard'
     }).format(val);
   };
 
@@ -77,7 +79,7 @@ const PenaltyCalculator: React.FC = () => {
   return (
     <div id="calculator" className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         <div className="mb-12 text-center">
            <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-bold bg-brand-50 text-brand mb-5 border border-brand-100">
               <Calculator size={16} className="mr-2" strokeWidth={2} /> Interactive Tool
@@ -91,16 +93,16 @@ const PenaltyCalculator: React.FC = () => {
         </div>
 
         <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100 flex flex-col lg:flex-row ring-1 ring-gray-100">
-            
+
             {/* Left: Inputs */}
             <div className="p-8 lg:p-12 w-full lg:w-1/2 bg-white">
                 <div className="space-y-8">
-                    
+
                     {/* State Selector */}
                     <div>
                         <label className="block text-sm font-bold text-gray-800 mb-2">Select Your State</label>
                         <div className="relative">
-                            <select 
+                            <select
                                 value={selectedStateCode}
                                 onChange={(e) => setSelectedStateCode(e.target.value)}
                                 className="block w-full pl-4 pr-10 py-3.5 text-base border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand sm:text-sm rounded-xl border bg-gray-50 transition-shadow"
@@ -113,7 +115,7 @@ const PenaltyCalculator: React.FC = () => {
                             </select>
                         </div>
                         <p className="mt-3 text-xs text-gray-500 flex items-center">
-                           <Info size={14} className="mr-1.5 text-brand" /> 
+                           <Info size={14} className="mr-1.5 text-brand" />
                            Fines based on state statutes for unauthorized insurance activity.
                         </p>
                     </div>
@@ -124,7 +126,7 @@ const PenaltyCalculator: React.FC = () => {
                             <label className="text-sm font-bold text-gray-800">Average Self-Insured Orders Per Day</label>
                             <div className="relative">
                                 <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 font-medium">#</span>
-                                <input 
+                                <input
                                     type="number"
                                     min="0"
                                     max="10000"
@@ -134,7 +136,7 @@ const PenaltyCalculator: React.FC = () => {
                                 />
                             </div>
                         </div>
-                        <input 
+                        <input
                             type="range"
                             min="0"
                             max="1000"
@@ -164,7 +166,7 @@ const PenaltyCalculator: React.FC = () => {
             <div className="p-8 lg:p-12 w-full lg:w-1/2 bg-brand text-white flex flex-col justify-center relative overflow-hidden">
                 {/* Background Pattern */}
                 <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
-                
+
                 <div className="relative z-10">
                     <h3 className="text-lg font-medium text-brand-100 mb-8 border-b border-brand-dark pb-4">
                        Estimated Exposure ({selectedStateData?.stateName})

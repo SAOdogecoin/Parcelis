@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 const Hero: React.FC = () => {
@@ -11,7 +13,7 @@ const Hero: React.FC = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 relative z-10 flex flex-col md:flex-row items-center gap-12">
-        
+
         {/* Left Content */}
         <div className="md:w-3/5 text-left">
             <span className="inline-block px-4 py-1.5 rounded-full bg-[#000050] bg-opacity-30 text-blue-100 text-sm font-semibold mb-6 border border-white/20 backdrop-blur-sm">
@@ -23,9 +25,9 @@ const Hero: React.FC = () => {
                 Self-Insuring Your Shipments
             </span>
             </h1>
-            
+
             <p className="mt-4 text-lg text-blue-100 font-light leading-relaxed mb-8">
-            Saving a dollar on “free” shipping protection can quietly turn into thousands in losses — and, in many states, potential regulatory penalties.
+            Saving a dollar on "free" shipping protection can quietly turn into thousands in losses — and, in many states, potential regulatory penalties.
             </p>
 
             <div className="space-y-4 mb-10">
@@ -39,11 +41,11 @@ const Hero: React.FC = () => {
                 </div>
                 <div className="flex items-start gap-3 text-white/90">
                     <div className="w-1.5 h-1.5 rounded-full bg-blue-300 mt-2.5 flex-shrink-0"></div>
-                    <p><strong className="text-white">Compliance risk:</strong> in many states, each “self-insured” shipment can count as a separate violation.</p>
+                    <p><strong className="text-white">Compliance risk:</strong> in many states, each "self-insured" shipment can count as a separate violation.</p>
                 </div>
             </div>
 
-            <button 
+            <button
                 onClick={() => {
                     document.getElementById('calculator')?.scrollIntoView({ behavior: 'smooth' });
                 }}
@@ -63,7 +65,7 @@ const Hero: React.FC = () => {
         </div>
 
       </div>
-      
+
       {/* Clean bottom separation - no wave line */}
     </div>
   );
