@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { getPenaltyData } from '../services/penaltyService';
 import { StatePenaltyData } from '../types';
-import { Calculator, Info, AlertCircle } from 'lucide-react';
+import { Calculator, Info, AlertCircle, ChevronDown } from 'lucide-react';
 
 const PenaltyCalculator: React.FC = () => {
   const [states, setStates] = useState<StatePenaltyData[]>([]);
@@ -9,7 +9,6 @@ const PenaltyCalculator: React.FC = () => {
   
   // Form State
   const [selectedStateCode, setSelectedStateCode] = useState<string>('CA');
-  // Lowered default to 10 to prevent initial "Billions" shock
   const [ordersPerDay, setOrdersPerDay] = useState<number>(10);
 
   // Fetch data
@@ -34,8 +33,6 @@ const PenaltyCalculator: React.FC = () => {
   const calculations = useMemo(() => {
     if (!selectedStateData) return { daily: 0, monthly: 0, yearly: 0, penalty: 0 };
     
-    // Logic: If the state considers each unlicensed contract a violation, 
-    // then shipping 100 packages = 100 violations.
     const penalty = selectedStateData.penaltyPerViolation;
     const daily = ordersPerDay * penalty;
     const monthly = daily * 30;
@@ -79,7 +76,7 @@ const PenaltyCalculator: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="mb-12 text-center">
-           <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-bold bg-brand-50 text-brand mb-5 border border-brand-100">
+           <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-bold bg-brand-50 text-brand mb-6 shadow-sm">
               <Calculator size={16} className="mr-2" strokeWidth={2} /> Interactive Tool
            </span>
            <h2 className="text-3xl font-extrabold text-slate-900 sm:text-4xl">
@@ -90,7 +87,7 @@ const PenaltyCalculator: React.FC = () => {
            </p>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100 flex flex-col lg:flex-row ring-1 ring-gray-100">
+        <div className="bg-white rounded-3xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] overflow-hidden flex flex-col lg:flex-row">
             
             {/* Left: Inputs */}
             <div className="p-8 lg:p-12 w-full lg:w-1/2 bg-white">
@@ -98,12 +95,12 @@ const PenaltyCalculator: React.FC = () => {
                     
                     {/* State Selector */}
                     <div>
-                        <label className="block text-sm font-bold text-gray-800 mb-2">Select Your State</label>
+                        <label className="block text-sm font-bold text-gray-800 mb-3">Select Your State</label>
                         <div className="relative">
                             <select 
                                 value={selectedStateCode}
                                 onChange={(e) => setSelectedStateCode(e.target.value)}
-                                className="block w-full pl-4 pr-10 py-3.5 text-base border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand sm:text-sm rounded-xl border bg-gray-50 transition-shadow"
+                                className="block w-full pl-5 pr-12 py-4 text-base appearance-none focus:outline-none focus:ring-2 focus:ring-brand focus:bg-white sm:text-sm rounded-2xl bg-gray-50 shadow-inner transition-all text-slate-900 cursor-pointer"
                             >
                                 {states.map(state => (
                                     <option key={state.stateCode} value={state.stateCode}>
@@ -111,6 +108,9 @@ const PenaltyCalculator: React.FC = () => {
                                     </option>
                                 ))}
                             </select>
+                            <div className="absolute inset-y-0 right-5 flex items-center pointer-events-none">
+                                <ChevronDown className="h-6 w-6 text-brand" strokeWidth={2.5} />
+                            </div>
                         </div>
                         <p className="mt-3 text-xs text-gray-500 flex items-center">
                            <Info size={14} className="mr-1.5 text-brand" /> 
@@ -120,9 +120,9 @@ const PenaltyCalculator: React.FC = () => {
 
                     {/* Volume Slider */}
                     <div className="pt-2">
-                        <div className="flex justify-between items-end mb-4">
+                        <div className="flex justify-between items-end mb-5">
                             <label className="text-sm font-bold text-gray-800">Average Self-Insured Orders Per Day</label>
-                            <div className="relative">
+                            <div className="relative group">
                                 <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 font-medium">#</span>
                                 <input 
                                     type="number"
@@ -130,7 +130,7 @@ const PenaltyCalculator: React.FC = () => {
                                     max="10000"
                                     value={ordersPerDay}
                                     onChange={handleInputChange}
-                                    className="w-28 text-right pl-6 pr-3 py-2 border border-gray-300 rounded-lg text-brand font-bold text-lg focus:ring-2 focus:ring-brand focus:border-brand outline-none"
+                                    className="w-28 text-right pl-6 pr-3 py-2 rounded-xl text-brand font-bold text-lg bg-gray-50 focus:bg-white focus:ring-2 focus:ring-brand outline-none transition-all"
                                 />
                             </div>
                         </div>
@@ -141,7 +141,7 @@ const PenaltyCalculator: React.FC = () => {
                             step="1"
                             value={ordersPerDay}
                             onChange={handleSliderChange}
-                            className="w-full h-2 bg-brand-100 rounded-lg appearance-none cursor-pointer accent-brand"
+                            className="w-full h-2 bg-brand-100 rounded-lg appearance-none cursor-pointer accent-brand pulsating-thumb"
                         />
                          <div className="flex justify-between text-xs text-gray-400 mt-2 font-medium">
                             <span>0</span>
@@ -150,9 +150,9 @@ const PenaltyCalculator: React.FC = () => {
                         </div>
                     </div>
 
-                    <div className="p-5 bg-brand-50 rounded-xl border border-brand-100 flex gap-3 items-start">
+                    <div className="p-6 bg-brand-50 rounded-2xl flex gap-4 items-start">
                         <AlertCircle className="text-brand flex-shrink-0 mt-0.5" size={20} strokeWidth={2} />
-                        <p className="text-sm text-brand-900 leading-snug">
+                        <p className="text-sm text-brand-900 leading-relaxed">
                             <strong>Regulatory Reality:</strong> If a state penalizes "per violation" and you ship <strong>{ordersPerDay}</strong> uninsured packages daily, you theoretically commit <strong>{ordersPerDay}</strong> violations every day.
                         </p>
                     </div>
@@ -166,7 +166,7 @@ const PenaltyCalculator: React.FC = () => {
                 <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
                 
                 <div className="relative z-10">
-                    <h3 className="text-lg font-medium text-brand-100 mb-8 border-b border-brand-dark pb-4">
+                    <h3 className="text-lg font-medium text-brand-100 mb-8 border-b border-brand-dark/50 pb-4">
                        Estimated Exposure ({selectedStateData?.stateName})
                     </h3>
 
@@ -178,13 +178,13 @@ const PenaltyCalculator: React.FC = () => {
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            <div className="bg-[#000000]/20 p-4 rounded-lg border border-white/10 backdrop-blur-sm">
+                            <div className="bg-[#000000]/20 p-5 rounded-2xl backdrop-blur-sm shadow-lg">
                                 <p className="text-xs text-brand-100 uppercase tracking-widest font-bold">Daily Exposure</p>
                                 <p className="text-3xl font-bold text-white mt-2">
                                     {formatCurrency(calculations.daily)}
                                 </p>
                             </div>
-                             <div className="bg-[#000000]/20 p-4 rounded-lg border border-white/10 backdrop-blur-sm">
+                             <div className="bg-[#000000]/20 p-5 rounded-2xl backdrop-blur-sm shadow-lg">
                                 <p className="text-xs text-brand-100 uppercase tracking-widest font-bold">Monthly Exposure</p>
                                 <p className="text-3xl font-bold text-white mt-2">
                                     {formatCurrency(calculations.monthly)}
@@ -192,12 +192,12 @@ const PenaltyCalculator: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="pt-6 border-t border-brand-dark">
+                        <div className="pt-6 border-t border-brand-dark/50">
                             <p className="text-xs text-brand-100 uppercase tracking-widest font-bold">Theoretical Yearly Exposure</p>
                             <p className="text-4xl sm:text-5xl font-extrabold text-white mt-3 tracking-tight">
                                  {formatCurrency(calculations.yearly)}
                             </p>
-                            <p className="mt-4 text-xs text-brand-100 opacity-60 italic">
+                            <p className="mt-4 text-xs text-brand-100 opacity-60 italic leading-relaxed">
                                 This calculator uses simplified assumptions for illustration only and does not constitute legal advice. Actual fines depend on regulator decisions and enforcement actions.
                             </p>
                         </div>

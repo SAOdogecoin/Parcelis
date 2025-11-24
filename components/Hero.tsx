@@ -1,20 +1,100 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { ChevronRight } from 'lucide-react';
 
 const Hero: React.FC = () => {
+  const [currentQuote, setCurrentQuote] = useState(0);
+  const [scrollY, setScrollY] = useState(0);
+  
+  const quotes = [
+    "Many merchants 'self-insure' by promising to replace lost or damaged packages out of pocket. It feels simple and cheap — until loss rates creep up and margins erode.",
+    "When you handle claims manually, you're not just losing money on replacement goods — you're losing valuable operational time and degrading customer trust.",
+    "Regulatory fines for unlicensed insurance can reach tens of thousands of dollars per violation in states like California and New York.",
+    "Self-insurance is an invisible liability on your balance sheet. Parcelis turns that unpredictable risk into a fixed, manageable cost."
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentQuote((prev) => (prev + 1) % quotes.length);
+    }, 5000);
+    
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [quotes.length]);
+
+  const nextQuote = () => {
+    setCurrentQuote((prev) => (prev + 1) % quotes.length);
+  };
+
   return (
-    <div className="relative bg-gradient-to-br from-brand-900 via-brand to-[#2e32d4] overflow-hidden">
-      {/* Decorative background elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-30 pointer-events-none">
+    <div className="relative bg-gradient-to-br from-brand-900 via-brand to-[#2e32d4] overflow-hidden pt-20">
+      {/* Decorative background elements (Static Blobs) */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-30 pointer-events-none z-0">
         <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#4a4eff] rounded-full mix-blend-screen filter blur-3xl opacity-60 animate-blob"></div>
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#6a6eff] rounded-full mix-blend-screen filter blur-3xl opacity-60 animate-blob animation-delay-2000"></div>
         <div className="absolute -bottom-8 left-20 w-72 h-72 bg-[#3a3eff] rounded-full mix-blend-screen filter blur-3xl opacity-60 animate-blob animation-delay-4000"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 relative z-10 flex flex-col md:flex-row items-center gap-12">
+      {/* Animated Parallax Squares & Shapes - No Circles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+         <div 
+          className="absolute top-[15%] left-[5%] w-32 h-32 bg-white/5 rounded-3xl backdrop-blur-3xl"
+          style={{ 
+              transform: `translateY(${scrollY * 0.3}px) rotate(${scrollY * 0.1}deg)`,
+              transition: 'transform 0.1s linear'
+          }}
+        ></div>
+        <div 
+          className="absolute bottom-[20%] right-[5%] w-48 h-48 bg-blue-400/10 rounded-[2rem] backdrop-blur-3xl"
+          style={{ 
+              transform: `translateY(${scrollY * 0.2}px) rotate(-${scrollY * 0.1}deg)`,
+              transition: 'transform 0.1s linear'
+          }}
+        ></div>
+        {/* Added shapes - More Boxes */}
+        <div 
+          className="absolute top-[60%] left-[15%] w-24 h-24 bg-blue-300/10 rounded-xl backdrop-blur-md"
+          style={{ 
+              transform: `translateY(${scrollY * 0.25}px) rotate(${scrollY * 0.15}deg)`,
+              transition: 'transform 0.1s linear'
+          }}
+        ></div>
+        {/* Changed from rounded-full to rounded-3xl (Square-ish) */}
+        <div 
+          className="absolute bottom-[10%] right-[35%] w-40 h-40 bg-white/5 rounded-3xl backdrop-blur-xl"
+          style={{ 
+              transform: `translateY(-${scrollY * 0.1}px) rotate(${scrollY * 0.05}deg)`,
+              transition: 'transform 0.1s linear'
+          }}
+        ></div>
+        <div 
+          className="absolute top-[30%] right-[20%] w-16 h-16 bg-indigo-500/20 rounded-lg backdrop-blur-sm"
+          style={{ 
+              transform: `translateY(${scrollY * 0.4}px) rotate(-${scrollY * 0.3}deg)`,
+              transition: 'transform 0.1s linear'
+          }}
+        ></div>
+        
+        {/* Removed the square at top-[10%] left-[40%] as requested */}
+
+        <div 
+          className="absolute bottom-[40%] left-[5%] w-28 h-28 bg-blue-500/10 rounded-2xl backdrop-blur-md"
+          style={{ 
+              transform: `translateY(${scrollY * 0.15}px) rotate(-${20 + scrollY * 0.1}deg)`,
+              transition: 'transform 0.1s linear'
+          }}
+        ></div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 relative z-10 flex flex-col md:flex-row items-center gap-12">
         
         {/* Left Content */}
         <div className="md:w-3/5 text-left">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-[#000050] bg-opacity-30 text-blue-100 text-sm font-semibold mb-6 border border-white/20 backdrop-blur-sm">
+            <span className="inline-block px-5 py-2 rounded-xl bg-white/10 text-blue-50 text-sm font-semibold mb-8 backdrop-blur-sm shadow-sm">
                 Merchant Risk Assessment
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-tight">
@@ -24,22 +104,22 @@ const Hero: React.FC = () => {
             </span>
             </h1>
             
-            <p className="mt-4 text-lg text-blue-100 font-light leading-relaxed mb-8">
+            <p className="mt-4 text-lg text-blue-50 font-light leading-relaxed mb-8 max-w-xl">
             Saving a dollar on “free” shipping protection can quietly turn into thousands in losses — and, in many states, potential regulatory penalties.
             </p>
 
-            <div className="space-y-4 mb-10">
-                <div className="flex items-start gap-3 text-white/90">
-                    <div className="w-1.5 h-1.5 rounded-full bg-blue-300 mt-2.5 flex-shrink-0"></div>
-                    <p><strong className="text-white">Operational risk:</strong> every lost order means replacement product, shipping, and support time.</p>
+            <div className="space-y-4 mb-12">
+                <div className="flex items-center gap-4 text-white/90 w-fit">
+                    <div className="w-2 h-2 rounded-full bg-blue-300 flex-shrink-0 ml-2"></div>
+                    <p className="text-sm md:text-base"><strong className="text-white">Operational risk:</strong> replacement product, shipping, & support time.</p>
                 </div>
-                <div className="flex items-start gap-3 text-white/90">
-                    <div className="w-1.5 h-1.5 rounded-full bg-blue-300 mt-2.5 flex-shrink-0"></div>
-                    <p><strong className="text-white">Margin risk:</strong> even a small loss rate silently cuts dollars from every order.</p>
+                <div className="flex items-center gap-4 text-white/90 w-fit">
+                    <div className="w-2 h-2 rounded-full bg-blue-300 flex-shrink-0 ml-2"></div>
+                    <p className="text-sm md:text-base"><strong className="text-white">Margin risk:</strong> small loss rates silently cut dollars from every order.</p>
                 </div>
-                <div className="flex items-start gap-3 text-white/90">
-                    <div className="w-1.5 h-1.5 rounded-full bg-blue-300 mt-2.5 flex-shrink-0"></div>
-                    <p><strong className="text-white">Compliance risk:</strong> in many states, each “self-insured” shipment can count as a separate violation.</p>
+                <div className="flex items-center gap-4 text-white/90 w-fit">
+                    <div className="w-2 h-2 rounded-full bg-blue-300 flex-shrink-0 ml-2"></div>
+                    <p className="text-sm md:text-base"><strong className="text-white">Compliance risk:</strong> each shipment can count as a separate violation.</p>
                 </div>
             </div>
 
@@ -47,24 +127,65 @@ const Hero: React.FC = () => {
                 onClick={() => {
                     document.getElementById('calculator')?.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="bg-white text-brand hover:bg-gray-50 hover:text-brand-dark font-bold py-4 px-10 rounded-lg shadow-xl transition-all transform hover:-translate-y-1 ring-1 ring-white/10"
+                className="bg-white text-brand hover:bg-blue-50 hover:text-brand-dark font-bold py-4 px-10 rounded-xl shadow-xl transition-all transform hover:-translate-y-1"
             >
                 Check Your Risk
             </button>
         </div>
 
-        {/* Right Content - Abstract Visual/Intro */}
-        <div className="md:w-2/5 relative">
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 text-white shadow-2xl">
-                 <p className="text-lg font-medium leading-relaxed">
-                    "Many merchants 'self-insure' by promising to replace lost or damaged packages out of pocket. It feels simple and cheap — until loss rates creep up, margins erode, and regulators view those promises as selling insurance without a license."
-                 </p>
+        {/* Right Content - Carousel Card */}
+        <div className="hidden md:flex md:w-2/5 items-center justify-center relative perspective-1000 w-full">
+            {/* Floating 3D Parcel Placeholder Effect */}
+             <div className="absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-br from-blue-300 to-brand rounded-2xl transform rotate-12 opacity-40 blur-lg animate-pulse"></div>
+
+            {/* Added 'group' class to enable hover effect for the button */}
+            <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 md:p-12 text-white shadow-2xl relative overflow-hidden flex flex-col w-full aspect-square group">
+                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+                 
+                 {/* Navigation Button - Appears on hover */}
+                 <button 
+                    onClick={nextQuote}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm transition-all duration-300 opacity-0 group-hover:opacity-100 z-30"
+                    aria-label="Next quote"
+                 >
+                    <ChevronRight size={24} />
+                 </button>
+
+                 {/* Carousel Content Container */}
+                 <div className="relative w-full flex-grow">
+                     {quotes.map((quote, index) => (
+                        <div 
+                            key={index}
+                            className={`absolute inset-0 flex items-center justify-center text-center p-4 transition-all duration-700 ${
+                                index === currentQuote 
+                                ? 'opacity-100 translate-x-0 scale-100' 
+                                : 'opacity-0 translate-x-12 scale-95 pointer-events-none'
+                            }`}
+                        >
+                            <p className="text-xl md:text-2xl font-medium leading-relaxed italic">
+                                "{quote}"
+                            </p>
+                        </div>
+                     ))}
+                 </div>
+
+                 {/* Indicators */}
+                 <div className="flex gap-2 pt-6 justify-center z-20 flex-shrink-0">
+                    {quotes.map((_, idx) => (
+                        <button 
+                            key={idx}
+                            onClick={() => setCurrentQuote(idx)}
+                            className={`h-1.5 rounded-full transition-all duration-300 ${
+                                idx === currentQuote ? 'w-8 bg-white' : 'w-2 bg-white/30 hover:bg-white/50'
+                            }`}
+                            aria-label={`Go to slide ${idx + 1}`}
+                        />
+                    ))}
+                 </div>
             </div>
         </div>
 
       </div>
-      
-      {/* Clean bottom separation - no wave line */}
     </div>
   );
 };
