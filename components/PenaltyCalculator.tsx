@@ -166,9 +166,12 @@ const PenaltyCalculator: React.FC = () => {
                 <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
                 
                 <div className="relative z-10">
-                    <h3 className="text-lg font-medium text-brand-100 mb-8 border-b border-brand-dark/50 pb-4">
+                    <h3 className="text-lg font-medium text-brand-100 mb-2">
                        Estimated Exposure ({selectedStateData?.stateName})
                     </h3>
+                    <p className="text-xs text-brand-100 mb-6 pb-4 border-b border-brand-dark/50 opacity-90">
+                       {selectedStateData?.statuteCode}
+                    </p>
 
                     <div className="space-y-8">
                         <div>
